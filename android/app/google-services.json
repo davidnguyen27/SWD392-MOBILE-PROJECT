@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "288638129865",
+    "project_id": "t-shirt-football-shop",
+    "storage_bucket": "t-shirt-football-shop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288638129865:android:26627874e18b2c99299f18",
+        "android_client_info": {
+          "package_name": "com.example.t_shirt_football_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4qJYyBrfkC-JMw1h5g4Tubj0xTlnsevQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
