@@ -1,11 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:t_shirt_football_project/src/models/dashboard.dart';
 
 class InvoiceHistoryChart extends StatelessWidget {
-  const InvoiceHistoryChart({super.key});
+  final DashboardData data;
+
+  const InvoiceHistoryChart({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<PieChartSectionData> sections = [];
+
+    if (data.shirtCount > 0) {
+      sections.add(
+        PieChartSectionData(
+          value: data.shirtCount.toDouble(),
+          color: Colors.blue,
+          title: 'Shirts: ${data.shirtCount}',
+          radius: 50,
+        ),
+      );
+    }
+
+    if (data.typeShirtCount > 0) {
+      sections.add(
+        PieChartSectionData(
+          value: data.typeShirtCount.toDouble(),
+          color: Colors.green,
+          title: 'Types: ${data.typeShirtCount}',
+          radius: 50,
+        ),
+      );
+    }
+
+    // Kiểm tra nếu sections không rỗng, hiển thị PieChart, ngược lại hiển thị thông báo "No data available"
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -14,32 +42,19 @@ class InvoiceHistoryChart extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Invoice History", style: TextStyle(fontSize: 18)),
+            const Text("Product", style: TextStyle(fontSize: 18)),
             const SizedBox(height: 10),
             SizedBox(
               height: 150,
-              child: PieChart(
-                PieChartData(
-                  sections: [
-                    PieChartSectionData(
-                      value: 37,
-                      color: Colors.green,
-                      title: 'React 37%',
-                      radius: 50,
-                      titleStyle:
-                          const TextStyle(fontSize: 14, color: Colors.white),
-                    ),
-                    PieChartSectionData(
-                      value: 63,
-                      color: Colors.red,
-                      title: 'Flutter 63%',
-                      radius: 50,
-                      titleStyle:
-                          const TextStyle(fontSize: 14, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
+              child: sections.isNotEmpty
+                  ? PieChart(
+                      PieChartData(
+                        sections: sections,
+                        sectionsSpace: 2,
+                        centerSpaceRadius: 40,
+                      ),
+                    )
+                  : const Center(child: Text("No data available for chart")),
             ),
           ],
         ),

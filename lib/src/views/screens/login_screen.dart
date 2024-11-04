@@ -128,30 +128,32 @@ class LoginScreen extends StatelessWidget {
                   await authProvider.login(
                       emailController.text, passwordController.text);
 
-                  // Navigate if login success
-                  if (authProvider.user != null) {
-                    Navigator.pushReplacementNamed(context, '/main');
-                  } else if (authProvider.errorMessage != null) {
-                    // Hiển thị modal thông báo khi đăng nhập thất bại
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Login Failed'),
-                          content: Text(authProvider.errorMessage ??
-                              'Invalid email or password. Please try again.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    // Navigate if login success
+                    if (authProvider.user != null) {
+                      Navigator.pushReplacementNamed(context, '/main');
+                    } else if (authProvider.errorMessage != null) {
+                      // Hiển thị modal thông báo khi đăng nhập thất bại
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Login Failed'),
+                            content: Text(authProvider.errorMessage ??
+                                'Invalid email or password. Please try again.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.all(16.0),

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:t_shirt_football_project/src/models/dashboard.dart';
+import 'package:t_shirt_football_project/src/providers/auth_provider.dart';
 import 'package:t_shirt_football_project/src/views/components/balance_card.dart';
 import 'package:t_shirt_football_project/src/views/components/invoice_history_chart.dart';
 import 'package:t_shirt_football_project/src/views/components/sms_history_chart.dart';
 
-Widget buildHomeScreen(BuildContext context) {
+Widget buildHomeScreen(BuildContext context, DashboardData dashboardData) {
+  final authProvider = Provider.of<AuthProvider>(context, listen: true);
+
   return Scaffold(
     backgroundColor: const Color(0xFFe3edf7),
     appBar: AppBar(
@@ -14,12 +19,27 @@ Widget buildHomeScreen(BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ClipOval(
-            child: Image.asset(
-              './lib/assets/images/profile_img.webp',
-              height: 50,
-              width: 50,
-              fit: BoxFit.cover,
-            ),
+            child: authProvider.user?.imgUrl != null
+                ? Image.network(
+                    authProvider.user!.imgUrl,
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        './lib/assets/images/profile_img.webp',
+                        height: 50,
+                        width: 50,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  )
+                : Image.asset(
+                    './lib/assets/images/profile_img.webp',
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.cover,
+                  ),
           ),
           const Text(
             "Dashboard",
@@ -58,8 +78,8 @@ Widget buildHomeScreen(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     BalanceCard(
-                      title: "Balance",
-                      amount: "\$150",
+                      title: "User Count",
+                      amount: dashboardData.userCount.toString(),
                       color: Colors.orangeAccent,
                       boxShadow: [
                         BoxShadow(
@@ -71,8 +91,8 @@ Widget buildHomeScreen(BuildContext context) {
                       ],
                     ),
                     BalanceCard(
-                      title: "SMS Balance",
-                      amount: "125 SMS",
+                      title: "Order Count",
+                      amount: dashboardData.orderCount.toString(),
                       color: Colors.greenAccent,
                       boxShadow: [
                         BoxShadow(
@@ -101,7 +121,7 @@ Widget buildHomeScreen(BuildContext context) {
                     ],
                   ),
                   padding: const EdgeInsets.all(16),
-                  child: const InvoiceHistoryChart(),
+                  child: InvoiceHistoryChart(data: dashboardData),
                 ),
                 const SizedBox(height: 20),
                 // Biểu đồ lịch sử SMS
@@ -119,7 +139,7 @@ Widget buildHomeScreen(BuildContext context) {
                     ],
                   ),
                   padding: const EdgeInsets.all(16),
-                  child: const SmsHistoryChart(),
+                  child: SmsHistoryChart(data: dashboardData),
                 ),
                 const SizedBox(height: 20),
                 // Phần sự kiện
@@ -150,10 +170,15 @@ Widget buildHomeScreen(BuildContext context) {
                         label: "Shirt Manage",
                       ),
                     ),
-                    buildEventCard(
-                      color: const Color(0xFF42a5f5),
-                      icon: Icons.category,
-                      label: "Type Shirt Manage",
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/player-manage');
+                      },
+                      child: buildEventCard(
+                        color: const Color(0xFF42a5f5),
+                        icon: Icons.category,
+                        label: "Player Manage",
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -165,11 +190,36 @@ Widget buildHomeScreen(BuildContext context) {
                         label: "Season Manage",
                       ),
                     ),
-                    buildEventCard(
-                      color: const Color(0xFF66bb6a),
-                      icon: Icons.shopping_cart,
-                      label: "Order Manage",
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/club-manage');
+                      },
+                      child: buildEventCard(
+                        color: const Color(0xFF66bb6a),
+                        icon: Icons.stadium,
+                        label: "Club Manage",
+                      ),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/size-manage');
+                      },
+                      child: buildEventCard(
+                        color: const Color(0xFF66bb6a),
+                        icon: Icons.run_circle_rounded,
+                        label: "Size Manage",
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.pushNamed(context, '/order-manage');
+                      },
+                      child: buildEventCard(
+                        color: const Color(0xFF66bb6a),
+                        icon: Icons.check_outlined,
+                        label: "Order Manage",
+                      ),
+                    )
                   ],
                 ),
               ],

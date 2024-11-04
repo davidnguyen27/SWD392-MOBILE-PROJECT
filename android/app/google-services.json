@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "288638129865",
-    "project_id": "t-shirt-football-shop",
-    "storage_bucket": "t-shirt-football-shop.appspot.com"
+    "project_number": "46151118776",
+    "project_id": "swd392-3203c",
+    "storage_bucket": "swd392-3203c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:288638129865:android:26627874e18b2c99299f18",
+        "mobilesdk_app_id": "1:46151118776:android:81f755d062191f838f694d",
         "android_client_info": {
           "package_name": "com.example.t_shirt_football_project"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "46151118776-jhpgdic86olbrec1sj03rr7muimdg5tv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.t_shirt_football_project",
+            "certificate_hash": "263b059776eb8fd98bcdb3b5efc3dd07ae5433b0"
+          }
+        },
+        {
+          "client_id": "46151118776-le8ecf39960drlqfd0dkefo9j9p6e2qf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyB4qJYyBrfkC-JMw1h5g4Tubj0xTlnsevQ"
+          "current_key": "AIzaSyBcHmJ0Qghn9d9_gMw3Ay0II_eBbA8ag6Y"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46151118776-le8ecf39960drlqfd0dkefo9j9p6e2qf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -39,7 +39,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       await authProvider.getCurrentUser();
       setState(() {
-        // Gán dữ liệu người dùng vào các controller sau khi dữ liệu được tải thành công
         _nameController.text = authProvider.user?.userName ?? '';
         _emailController.text = authProvider.user?.email ?? '';
         _dobController.text = authProvider.user?.dob != null
@@ -47,15 +46,26 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
             : '';
         _phoneController.text = authProvider.user?.phoneNumber ?? '';
         _addressController.text = authProvider.user?.address ?? '';
-        _selectedGender = authProvider.user?.gender ?? 'Male';
 
-        _isLoading = false; // Đã hoàn tất tải dữ liệu
+        // Chuẩn hóa giá trị gender về đúng định dạng
+        final gender = authProvider.user?.gender?.toLowerCase();
+        if (gender == 'male') {
+          _selectedGender = 'Male';
+        } else if (gender == 'female') {
+          _selectedGender = 'Female';
+        } else if (gender == 'other') {
+          _selectedGender = 'Other';
+        } else {
+          _selectedGender =
+              'Male'; // Giá trị mặc định nếu gender không xác định
+        }
+
+        _isLoading = false;
       });
     } catch (e) {
       setState(() {
         _isLoading = false;
       });
-      print('Error fetching user: $e');
     }
   }
 
@@ -65,7 +75,14 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Personal details'),
+        title: const Text(
+          'Personal details',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.blue,
       ),
@@ -128,7 +145,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         ),
                       );
                     } catch (e) {
-                      print("Invalid date format: $e");
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {

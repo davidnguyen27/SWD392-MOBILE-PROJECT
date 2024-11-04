@@ -100,6 +100,8 @@ class SeasonCardItem extends StatelessWidget {
                           color: Colors.grey,
                           fontSize: 14,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

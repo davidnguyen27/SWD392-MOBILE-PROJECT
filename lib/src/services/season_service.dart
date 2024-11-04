@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:t_shirt_football_project/src/config/config.dart';
 import 'package:t_shirt_football_project/src/models/season.dart';
@@ -61,6 +62,9 @@ class SeasonService {
   }) async {
     String? token =
         await TokenService.getToken(); // Lấy token từ SharedPreferences
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
+
+    print('fcm token: $fcmToken');
 
     if (token == null) {
       throw Exception('Token not found');
@@ -80,8 +84,15 @@ class SeasonService {
       }),
     );
 
-    if (response.statusCode == 201) {
-    } else if (response.statusCode == 401 || response.statusCode == 403) {
+    // if (response.statusCode == 201) {
+    //   await FirebaseNotificationService.sendNotificationToDevice(
+    //     title: 'New Season Created',
+    //     body: 'Season $name has been created successfully!',
+    //     // topic: 'all', // Gửi tới topic 'all'
+    //     token: fcmToken,
+    //   );
+    // } else
+    if (response.statusCode == 401 || response.statusCode == 403) {
       throw Exception(
           'Unauthorized: You do not have the required permissions.');
     } else {

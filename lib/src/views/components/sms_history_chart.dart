@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:t_shirt_football_project/src/models/dashboard.dart';
 
 class SmsHistoryChart extends StatelessWidget {
-  const SmsHistoryChart({super.key});
+  final DashboardData data;
+
+  const SmsHistoryChart({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +17,10 @@ class SmsHistoryChart extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("SMS History", style: TextStyle(fontSize: 18)),
+            const Text("General", style: TextStyle(fontSize: 18)),
             const SizedBox(height: 10),
             SizedBox(
-              height: 150,
+              height: 200,
               child: LineChart(
                 LineChartData(
                   gridData: FlGridData(show: false),
@@ -26,13 +29,10 @@ class SmsHistoryChart extends StatelessWidget {
                   lineBarsData: [
                     LineChartBarData(
                       spots: [
-                        FlSpot(0, 1),
-                        FlSpot(1, 3),
-                        FlSpot(2, 2),
-                        FlSpot(3, 5),
-                        FlSpot(4, 3.1),
-                        FlSpot(5, 4),
-                        FlSpot(6, 3),
+                        FlSpot(0, data.sessionCount.toDouble()),
+                        FlSpot(1, data.orderCount.toDouble()),
+                        FlSpot(2, data.userCount.toDouble()),
+                        FlSpot(3, data.clubCount.toDouble()),
                       ],
                       isCurved: true,
                       colors: [Colors.blue],

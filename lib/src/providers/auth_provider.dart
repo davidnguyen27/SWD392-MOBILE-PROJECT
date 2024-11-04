@@ -6,21 +6,15 @@ import '../models/user.dart';
 import '../repositories/auth_repository.dart';
 import '../services/token_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:firebase_auth/firebase_auth.dart' as firebaseAuth;
 
 class AuthProvider with ChangeNotifier {
-  firebaseAuth.User? firebaseUser;
-
   User? _user;
   String? _token;
   bool _isLoading = false;
   String? _errorMessage;
 
   final AuthRepository _authRepository = AuthRepository();
-  // final TokenService _tokenService = TokenService();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final firebaseAuth.FirebaseAuth _firebaseAuth =
-      firebaseAuth.FirebaseAuth.instance;
 
   User? get user => _user;
   bool get isLoading => _isLoading;
@@ -53,54 +47,44 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> loginWithGoogle() async {
-    _setLoading(true);
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        // Nếu người dùng hủy đăng nhập
-        _setLoading(false);
+        // Người dùng hủy đăng nhập
         return;
       }
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
-      // Xác thực với Firebase
-      final firebaseAuth.AuthCredential credential =
-          firebaseAuth.GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+      final String? idToken = googleAuth.idToken;
 
-      // Đăng nhập với Firebase và lấy Firebase ID token
-      final firebaseAuth.UserCredential authResult =
-          await _firebaseAuth.signInWithCredential(credential);
-      final String? idToken = await authResult.user?.getIdToken();
-
-      // Kiểm tra và log giá trị idToken
       if (idToken != null) {
-        print("Firebase ID Token: $idToken");
+        final response = await http.post(
+          Uri.parse(
+              '${AppConfig.apiBaseUrl}/api/user/loginmail?googleId=$idToken'),
+          headers: {'Content-Type': 'application/json'},
+        );
 
-        // Gửi idToken này tới API của bạn
-        _user = await _authRepository.loginWithGoogleId(idToken);
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> decodedBody = jsonDecode(response.body);
 
-        if (_user != null) {
-          // Đăng nhập thành công
-          _token = _user!.token;
+          // Kiểm tra và cập nhật `user` và `token`
+          _user = User.fromJson(decodedBody['data']['user']);
+          _token = decodedBody['data']['token'];
           await TokenService.saveToken(_token!);
+          _errorMessage = null; // Đặt lại lỗi nếu có
           await getCurrentUser();
         } else {
-          _errorMessage = 'Google Login failed.';
+          print(
+              "Failed to login with backend. Status code: ${response.statusCode}");
         }
       } else {
-        _errorMessage = 'Failed to get Firebase ID Token.';
+        print('Failed to retrieve ID token.');
       }
     } catch (e) {
-      _errorMessage = 'Error during Google login: $e';
-    } finally {
-      _setLoading(false);
+      print("Error during Google login: $e");
     }
-    notifyListeners();
   }
 
   Future<void> getCurrentUser() async {
@@ -181,6 +165,6 @@ class AuthProvider with ChangeNotifier {
 
   void _setLoading(bool value) {
     _isLoading = value;
-    notifyListeners();
+    // notifyListeners();
   }
 }

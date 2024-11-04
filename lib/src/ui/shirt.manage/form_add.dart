@@ -4,14 +4,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart'; // Thêm import cho TextInputFormatter
 import '../../utils/image_utils.dart';
 
-class AddForm extends StatefulWidget {
-  const AddForm({super.key});
+class AddShirtForm extends StatefulWidget {
+  const AddShirtForm({super.key});
 
   @override
-  _AddFormState createState() => _AddFormState();
+  _AddShirtFormState createState() => _AddShirtFormState();
 }
 
-class _AddFormState extends State<AddForm> {
+class _AddShirtFormState extends State<AddShirtForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();

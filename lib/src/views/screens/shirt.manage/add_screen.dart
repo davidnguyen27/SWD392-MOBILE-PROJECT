@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../ui/shirt.manage/form_add.dart';
+import 'package:t_shirt_football_project/src/ui/shirt.manage/form_add.dart';
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+class AddShirtScreen extends StatefulWidget {
+  const AddShirtScreen({super.key});
 
   @override
-  _AddScreenState createState() => _AddScreenState();
+  _AddShirtScreenState createState() => _AddShirtScreenState();
 }
 
-class _AddScreenState extends State<AddScreen> {
+class _AddShirtScreenState extends State<AddShirtScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class _AddScreenState extends State<AddScreen> {
       body: const Padding(
         padding: EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          child: AddForm(), // Gọi lại AddForm
+          child: AddShirtForm(), // Gọi lại AddForm
         ),
       ),
       backgroundColor: Colors.grey[100],

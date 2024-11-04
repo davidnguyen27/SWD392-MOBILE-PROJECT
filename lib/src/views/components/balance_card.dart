@@ -4,13 +4,14 @@ class BalanceCard extends StatelessWidget {
   final String title;
   final String amount;
   final Color color;
+  final List<BoxShadow> boxShadow;
 
   const BalanceCard({
     required this.title,
     required this.amount,
     required this.color,
+    required this.boxShadow,
     super.key,
-    required List<BoxShadow> boxShadow,
   });
 
   @override
@@ -21,6 +22,7 @@ class BalanceCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
+        boxShadow: boxShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

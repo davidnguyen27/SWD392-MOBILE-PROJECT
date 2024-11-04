@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:t_shirt_football_project/src/views/screens/club.manage/add_screen.dart';
+import 'package:t_shirt_football_project/src/views/screens/club.manage/club_manage_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/main_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/payment_screen.dart';
+import 'package:t_shirt_football_project/src/views/screens/player.manage/player_manage_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/profile_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/landing_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/home_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/season.manage/add_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/season.manage/season_manage_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/shirt.manage/add_screen.dart';
+import 'package:t_shirt_football_project/src/views/screens/size.manage/add_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/shirt.manage/shirt_manage_screen.dart';
+import 'package:t_shirt_football_project/src/views/screens/size.manage/size_manage_screen.dart';
 import '../views/screens/test_screen.dart';
 
 class AppRoutes {
@@ -20,8 +25,13 @@ class AppRoutes {
     '/crypto': (context) => const CryptoScreen(),
     '/shirt-manage': (context) => const ShirtManageScreen(),
     '/season-manage': (context) => const SeasonManageScreen(),
+    '/club-manage': (context) => const ClubManageScreen(),
+    '/player-manage': (context) => const PlayerManageScreen(),
+    '/size-manage': (context) => const SizeManageScreen(),
     '/season-add': (context) => const AddSeasonScreen(),
-    '/shirt-add': (context) => const AddScreen(),
+    '/club-add': (context) => const AddClubScreen(),
+    '/shirt-add': (context) => const AddShirtScreen(),
+    '/size-add': (context) => const AddSizeScreen(),
     '/test': (context) => const CryptoScreen(),
   };
 
