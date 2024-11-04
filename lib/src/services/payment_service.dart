@@ -24,7 +24,7 @@ class PaymentService {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       List<dynamic> paymentList = data['data']['pageData'] ?? [];
-      print('Parsed payment list (after assignment): $paymentList');
+
       return paymentList.map((json) => Payment.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load payments');
