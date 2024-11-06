@@ -23,7 +23,7 @@ class PaymentScreen extends StatelessWidget {
             fontSize: 24,
           ),
         ),
-        backgroundColor: Colors.blueGrey[900],
+        backgroundColor: Colors.blue,
         elevation: 10,
         automaticallyImplyLeading: false,
         centerTitle: true,

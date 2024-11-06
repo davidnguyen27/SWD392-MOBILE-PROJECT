@@ -11,10 +11,10 @@ class CryptoScreen extends StatelessWidget {
           'Crypto',
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.blue,
         elevation: 0,
-        centerTitle: true, // Căn giữa tiêu đề
-        automaticallyImplyLeading: true, // Hiển thị mũi tên quay lại nếu cần
+        centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
