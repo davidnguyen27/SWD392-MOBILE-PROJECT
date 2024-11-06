@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:t_shirt_football_project/src/models/order.dart';
 import 'package:t_shirt_football_project/src/services/order_service.dart';
 
 class FirebaseApi {
@@ -55,27 +56,22 @@ class FirebaseApi {
   Future<void> checkOrdersWithStatus2(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
     // Sử dụng OrderService để lấy danh sách đơn hàng
-    final orderData = await OrderService().fetchOrders(1, 50, '', 2);
+    final List<Order> orders = await OrderService().fetchOrders(1, 50, '', 2);
 
-    if (orderData != null && orderData is Map<String, dynamic>) {
-      final List<dynamic> pageData = orderData['pageData'];
-      if (pageData.isNotEmpty) {
-        for (var order in pageData) {
-          final String orderId = order['id'];
-          final String userName = order['userName'];
-          final int status = order['status'];
+    if (orders.isNotEmpty) {
+      for (var order in orders) {
+        final String orderId = order.id;
+        final String userName = order.userName;
+        final int status = order.status;
 
-          // Kiểm tra nếu order chưa được thông báo và status = 2
-          if (status == 2 && !_notifiedOrderIds.contains(orderId)) {
-            // Gửi thông báo và thêm orderId vào danh sách đã thông báo
-            await _showLocalNotification(
-                flutterLocalNotificationsPlugin, userName, orderId);
-            _notifiedOrderIds.add(orderId);
-          }
+        // Kiểm tra nếu order chưa được thông báo và status = 2
+        if (status == 2 && !_notifiedOrderIds.contains(orderId)) {
+          // Gửi thông báo và thêm orderId vào danh sách đã thông báo
+          await _showLocalNotification(
+              flutterLocalNotificationsPlugin, userName, orderId);
+          _notifiedOrderIds.add(orderId);
         }
       }
-    } else {
-      print('No new orders found or an error occurred.');
     }
   }
 

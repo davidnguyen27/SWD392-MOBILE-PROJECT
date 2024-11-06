@@ -29,19 +29,22 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      id: json['id'],
-      userId: json['userId'],
-      userName: json['userName'],
-      totalPrice: json['totalPrice'],
-      shipPrice: json['shipPrice'],
+      id: json['id'] ?? '',
+      userId: json['userId'] ?? 0,
+      userName: json['userName'] ?? 'Unknown',
+      totalPrice: json['totalPrice'] ?? 0,
+      shipPrice: json['shipPrice'] ?? 0,
       deposit: json['deposit'],
-      date: json['date'],
-      refundStatus: json['refundStatus'],
-      status: json['status'],
-      newStatus: json['newStatus'],
-      orderDetails: (json['orderDetails'] as List)
-          .map((item) => OrderDetail.fromJson(item))
-          .toList(),
+      date: json['date'] ?? '',
+      refundStatus: json['refundStatus'] ?? false,
+      status: json['status'] ?? 0,
+      newStatus: json['newStatus'] ?? 0,
+      orderDetails:
+          (json['orderDetails'] != null && json['orderDetails'] is List)
+              ? (json['orderDetails'] as List)
+                  .map((item) => OrderDetail.fromJson(item))
+                  .toList()
+              : [],
     );
   }
 }

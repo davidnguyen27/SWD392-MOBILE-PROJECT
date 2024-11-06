@@ -212,7 +212,7 @@ Widget buildHomeScreen(BuildContext context, DashboardData dashboardData) {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.pushNamed(context, '/order-manage');
+                        Navigator.pushNamed(context, '/order-manage');
                       },
                       child: buildEventCard(
                         color: const Color(0xFF66bb6a),

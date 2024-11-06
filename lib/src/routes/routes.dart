@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:t_shirt_football_project/src/views/screens/club.manage/add_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/club.manage/club_manage_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/main_screen.dart';
+import 'package:t_shirt_football_project/src/views/screens/order.manage/order_manage_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/payment_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/player.manage/player_manage_screen.dart';
 import 'package:t_shirt_football_project/src/views/screens/profile_screen.dart';
@@ -28,6 +29,7 @@ class AppRoutes {
     '/club-manage': (context) => const ClubManageScreen(),
     '/player-manage': (context) => const PlayerManageScreen(),
     '/size-manage': (context) => const SizeManageScreen(),
+    '/order-manage': (context) => OrderManageScreen(),
     '/season-add': (context) => const AddSeasonScreen(),
     '/club-add': (context) => const AddClubScreen(),
     '/shirt-add': (context) => const AddShirtScreen(),
