@@ -21,17 +21,9 @@ class PaymentService {
       }),
     );
 
-    print(
-        'API Response Status Code: ${response.statusCode}'); // Debug: Trạng thái phản hồi
-    print(
-        'API Response Body: ${response.body}'); // Debug: Nội dung phản hồi từ API
-
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-
       List<dynamic> paymentList = data['data']['pageData'] ?? [];
-      print(
-          'Parsed payment list: $paymentList'); // Debug: In danh sách payment đã phân tích
 
       return paymentList.map((json) => Payment.fromJson(json)).toList();
     } else {

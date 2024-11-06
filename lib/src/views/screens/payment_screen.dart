@@ -6,6 +6,11 @@ import 'package:t_shirt_football_project/src/services/payment_service.dart';
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen({super.key});
 
+  Future<List<Payment>> fetchPayments() async {
+    final payments = await PaymentService.getAllPayments();
+    return payments;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +32,12 @@ class PaymentScreen extends StatelessWidget {
         color: Colors.blueGrey[50],
         padding: const EdgeInsets.all(16.0),
         child: FutureBuilder<List<Payment>>(
-          future: PaymentService.getAllPayments(),
+          future: fetchPayments(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              print(
-                  'Error loading payments: ${snapshot.error}'); // Debug: In lỗi
+              print('Error loading payments: ${snapshot.error}');
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
@@ -41,148 +45,54 @@ class PaymentScreen extends StatelessWidget {
               return const Center(child: Text('No payments found'));
             } else {
               final payments = snapshot.data!;
-              print(
-                  'Payments loaded: $payments'); // Debug: In danh sách payments
+              return ListView.builder(
+                itemCount: payments.length,
+                itemBuilder: (context, index) {
+                  final payment = payments[index];
+                  final formattedDate =
+                      DateFormat('yyyy-MM-dd HH:mm:ss').format(payment.date);
+                  final formattedAmount =
+                      NumberFormat.currency(locale: 'vi_VN', symbol: '₫')
+                          .format(payment.amount);
 
-              final displayDateFormat = DateFormat('yyyy/MM/dd');
-
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  headingRowColor: WidgetStateColor.resolveWith(
-                      (states) => Colors.blueGrey[700]!),
-                  columnSpacing: 24,
-                  columns: const [
-                    DataColumn(
-                      label: Text(
-                        'User Name',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Order ID',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Date',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Amount',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Method',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Description',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Status',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                  rows: payments.map((payment) {
-                    return DataRow(
-                      color: WidgetStateColor.resolveWith(
-                        (states) => payment.status
-                            ? Colors.green[50]!
-                            : Colors.red[50]!,
-                      ),
-                      cells: [
-                        DataCell(
+                  return Card(
+                    elevation: 5,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
                             payment.userUserName,
-                            style: TextStyle(
-                                color: Colors.blueGrey[900],
-                                fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey,
+                            ),
                           ),
-                        ),
-                        DataCell(
+                          const SizedBox(height: 8),
+                          Text('Order ID: ${payment.orderId}'),
+                          Text('Date: $formattedDate'),
                           Text(
-                            payment.orderId,
-                            style: TextStyle(color: Colors.blueGrey[700]),
-                          ),
-                        ),
-                        DataCell(
+                              'Amount: $formattedAmount'), // Hiển thị số tiền theo định dạng VND
+                          Text('Method: ${payment.method}'),
+                          Text('Description: ${payment.description}'),
+                          const SizedBox(height: 8),
                           Text(
-                            displayDateFormat.format(payment.date),
-                            style: TextStyle(color: Colors.blueGrey[700]),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            '\$${payment.amount}',
-                            style: TextStyle(color: Colors.blueGrey[700]),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            payment.method,
-                            style: TextStyle(color: Colors.blueGrey[700]),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            payment.description,
-                            style: TextStyle(color: Colors.blueGrey[700]),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            payment.status ? 'Completed' : 'Pending',
+                            payment.status
+                                ? 'Status: Completed'
+                                : 'Status: Pending',
                             style: TextStyle(
                               color: payment.status ? Colors.green : Colors.red,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               );
             }
           },

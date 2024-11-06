@@ -23,8 +23,7 @@ class HomeScreen extends StatelessWidget {
               return const Center(child: Text('Failed to load dashboard data'));
             } else if (snapshot.hasData) {
               final dashboardData = snapshot.data!;
-              print(
-                  'Dashboard Data: $dashboardData'); // Giờ sẽ in ra dữ liệu thực tế
+              // Giờ sẽ in ra dữ liệu thực tế
               return buildHomeScreen(context, dashboardData);
             } else {
               return const Center(child: Text('No data available'));

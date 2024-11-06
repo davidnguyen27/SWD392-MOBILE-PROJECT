@@ -24,24 +24,27 @@ class Payment {
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) {
-    final dateString = json['date'];
-    print(
-        'Raw date string from JSON: $dateString'); // Debug: In chuỗi ngày tháng gốc
-
     DateTime parsedDate;
+    String dateString = json['date'];
 
-    // Kiểm tra độ dài của chuỗi để xác định định dạng
-    if (dateString.length == 14) {
-      // Nếu chuỗi có 14 ký tự, dùng định dạng "yyyyMMddHHmmss"
-      parsedDate = DateFormat("yyyyMMddHHmmss").parse(dateString);
-    } else if (dateString.length == 19) {
-      // Nếu chuỗi có 19 ký tự, dùng định dạng "dd/MM/yyyy HH:mm:ss"
-      parsedDate = DateFormat("dd/MM/yyyy HH:mm:ss").parse(dateString);
-    } else {
-      throw FormatException("Invalid date format: $dateString");
+    try {
+      if (dateString.length == 14) {
+        int year = int.parse(dateString.substring(0, 4));
+        int month = int.parse(dateString.substring(4, 6));
+        int day = int.parse(dateString.substring(6, 8));
+        int hour = int.parse(dateString.substring(8, 10));
+        int minute = int.parse(dateString.substring(10, 12));
+        int second = int.parse(dateString.substring(12, 14));
+        parsedDate = DateTime(year, month, day, hour, minute, second);
+      } else if (dateString.contains('/')) {
+        parsedDate = DateFormat("dd/MM/yyyy HH:mm:ss").parse(dateString);
+      } else {
+        parsedDate = DateTime.parse(dateString);
+      }
+    } catch (e) {
+      parsedDate = DateTime.now();
+      print("Error parsing date: $e - Original date string: $dateString");
     }
-
-    print('Parsed date: $parsedDate'); // Debug: In ngày đã chuyển đổi
 
     return Payment(
       id: json['id'],
