@@ -73,7 +73,7 @@ class _ClubDetailScreenState extends State<ClubDetailScreen> {
     final downloadUrl =
         await storageService.uploadImage(_selectedImage!, fileName);
 
-    if (downloadUrl != null) {
+    if (mounted && downloadUrl != null) {
       setState(() {
         _uploadedImageUrl = downloadUrl;
       });
@@ -95,14 +95,18 @@ class _ClubDetailScreenState extends State<ClubDetailScreen> {
 
     try {
       await ClubService.updateClub(widget.clubId, clubData);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Club updated successfully')),
-      );
-      Navigator.pushReplacementNamed(context, '/home');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Club updated successfully')),
+        );
+        Navigator.pushReplacementNamed(context, '/home');
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update club: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to update club: $e')),
+        );
+      }
     }
   }
 
@@ -138,14 +142,18 @@ class _ClubDetailScreenState extends State<ClubDetailScreen> {
     if (confirmDelete) {
       try {
         await ClubService.deleteClub(widget.clubId);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Club deleted successfully')),
-        );
-        Navigator.pushReplacementNamed(context, '/home');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Club deleted successfully')),
+          );
+          Navigator.pushReplacementNamed(context, '/home');
+        }
       } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to delete club: $error')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to delete club: $error')),
+          );
+        }
       }
     }
   }

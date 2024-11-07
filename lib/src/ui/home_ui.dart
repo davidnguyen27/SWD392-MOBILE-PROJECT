@@ -98,7 +98,10 @@ Widget buildHomeScreen(BuildContext context, DashboardData dashboardData) {
                   children: [
                     buildEventCard(
                       context: context,
-                      colorGradient: [Color(0xFFF48FB1), Color(0xFFAD1457)],
+                      colorGradient: [
+                        const Color(0xFFF48FB1),
+                        const Color(0xFFAD1457)
+                      ],
                       icon: Icons.checkroom,
                       label: "Shirt Manage",
                       onTap: () {
@@ -107,7 +110,10 @@ Widget buildHomeScreen(BuildContext context, DashboardData dashboardData) {
                     ),
                     buildEventCard(
                       context: context,
-                      colorGradient: [Color(0xFF42a5f5), Color(0xFF1e88e5)],
+                      colorGradient: [
+                        const Color(0xFF42a5f5),
+                        const Color(0xFF1e88e5)
+                      ],
                       icon: Icons.category,
                       label: "Player Manage",
                       onTap: () {
@@ -116,7 +122,10 @@ Widget buildHomeScreen(BuildContext context, DashboardData dashboardData) {
                     ),
                     buildEventCard(
                       context: context,
-                      colorGradient: [Color(0xFFba68c8), Color(0xFF8e24aa)],
+                      colorGradient: [
+                        const Color(0xFFba68c8),
+                        const Color(0xFF8e24aa)
+                      ],
                       icon: Icons.calendar_today,
                       label: "Season Manage",
                       onTap: () {
@@ -125,7 +134,10 @@ Widget buildHomeScreen(BuildContext context, DashboardData dashboardData) {
                     ),
                     buildEventCard(
                       context: context,
-                      colorGradient: [Color(0xFF66bb6a), Color(0xFF388e3c)],
+                      colorGradient: [
+                        const Color(0xFF66bb6a),
+                        const Color(0xFF388e3c)
+                      ],
                       icon: Icons.stadium,
                       label: "Club Manage",
                       onTap: () {
@@ -134,7 +146,10 @@ Widget buildHomeScreen(BuildContext context, DashboardData dashboardData) {
                     ),
                     buildEventCard(
                       context: context,
-                      colorGradient: [Color(0xFFffb74d), Color(0xFFf57c00)],
+                      colorGradient: [
+                        const Color(0xFFffb74d),
+                        const Color(0xFFf57c00)
+                      ],
                       icon: Icons.run_circle_rounded,
                       label: "Size Manage",
                       onTap: () {
@@ -143,7 +158,10 @@ Widget buildHomeScreen(BuildContext context, DashboardData dashboardData) {
                     ),
                     buildEventCard(
                       context: context,
-                      colorGradient: [Color(0xFF90caf9), Color(0xFF42a5f5)],
+                      colorGradient: [
+                        const Color(0xFF90caf9),
+                        const Color(0xFF42a5f5)
+                      ],
                       icon: Icons.check_outlined,
                       label: "Order Manage",
                       onTap: () {

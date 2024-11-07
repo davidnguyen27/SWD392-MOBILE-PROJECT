@@ -43,7 +43,6 @@ class Payment {
       }
     } catch (e) {
       parsedDate = DateTime.now();
-      print("Error parsing date: $e - Original date string: $dateString");
     }
 
     return Payment(

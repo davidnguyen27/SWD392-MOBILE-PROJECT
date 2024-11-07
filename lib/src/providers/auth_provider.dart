@@ -75,15 +75,10 @@ class AuthProvider with ChangeNotifier {
           await TokenService.saveToken(_token!);
           _errorMessage = null; // Đặt lại lỗi nếu có
           await getCurrentUser();
-        } else {
-          print(
-              "Failed to login with backend. Status code: ${response.statusCode}");
         }
-      } else {
-        print('Failed to retrieve ID token.');
       }
     } catch (e) {
-      print("Error during Google login: $e");
+      throw Exception("Error during Google login: $e");
     }
   }
 

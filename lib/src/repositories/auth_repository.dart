@@ -21,7 +21,6 @@ class AuthRepository {
       if (response.statusCode == 200) {
         // Nếu đăng nhập thành công
         final decodedBody = jsonDecode(response.body);
-        print("Decoded JSON: $decodedBody");
 
         // Lấy token từ JSON
         final token = decodedBody['data']['token'] ?? '';
