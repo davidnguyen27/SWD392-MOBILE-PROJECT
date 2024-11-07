@@ -6,6 +6,7 @@ class DashboardData {
   final int shirtCount;
   final int typeShirtCount;
   final int orderCount;
+  final int totalSalesAmount;
 
   DashboardData({
     required this.userCount,
@@ -15,6 +16,7 @@ class DashboardData {
     required this.shirtCount,
     required this.typeShirtCount,
     required this.orderCount,
+    required this.totalSalesAmount,
   });
 
   // Phương thức factory để tạo một đối tượng DashboardData từ JSON
@@ -28,6 +30,7 @@ class DashboardData {
       shirtCount: data['shirtCount'] ?? 0,
       typeShirtCount: data['typeShirtCount'] ?? 0,
       orderCount: data['orderCount'] ?? 0,
+      totalSalesAmount: data['totalSalesAmount'] ?? 0,
     );
   }
 
@@ -41,6 +44,7 @@ class DashboardData {
       'shirtCount': shirtCount,
       'typeShirtCount': typeShirtCount,
       'orderCount': orderCount,
+      'totalSalesAmount': totalSalesAmount,
     };
   }
 }

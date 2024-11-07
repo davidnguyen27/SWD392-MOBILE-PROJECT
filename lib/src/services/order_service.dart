@@ -58,12 +58,50 @@ class OrderService {
     );
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body)['data'];
+      final data = json.decode(response.body)['data']['pageData'];
       return Order.fromJson(data);
     } else {
       final errResponse = jsonDecode(response.body);
       throw Exception(
           'Error ${errResponse["code"]} code: ${errResponse["message"]}');
+    }
+  }
+
+  static Future<bool> updateOrderStatus(
+      String orderId,
+      int userId,
+      int totalPrice,
+      int shipPrice,
+      int deposit,
+      String date,
+      bool refundStatus,
+      int status) async {
+    String? token = await TokenService.getToken();
+    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/order?id=$orderId');
+
+    final response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        "userId": userId,
+        "totalPrice": totalPrice,
+        "shipPrice": shipPrice,
+        "deposit": deposit,
+        "date": date,
+        "refundStatus": refundStatus,
+        "status": status,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return true; // Cập nhật thành công
+    } else {
+      final errResponse = jsonDecode(response.body);
+      throw Exception(
+          'Failed to update order status: ${errResponse["message"]}');
     }
   }
 }

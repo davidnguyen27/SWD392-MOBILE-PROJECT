@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import thư viện intl
+import 'package:t_shirt_football_project/src/services/dashboard_service.dart';
+import 'package:t_shirt_football_project/src/models/dashboard.dart';
 
 class CryptoScreen extends StatelessWidget {
   const CryptoScreen({super.key});
+
+  // Hàm định dạng tiền VND
+  String formatCurrency(int value) {
+    final formatter = NumberFormat.currency(locale: 'vi_VN', symbol: '₫');
+    return formatter.format(value);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Crypto',
+          'Dashboard',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.blue,
@@ -18,67 +27,96 @@ class CryptoScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Crypto Prices',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            _buildCryptoTile(
-              context,
-              icon: Icons.currency_bitcoin,
-              cryptoName: 'Bitcoin',
-              price: '\$50,000',
-              change: '+5.2%',
-            ),
-            _buildCryptoTile(
-              context,
-              icon: Icons.attach_money,
-              cryptoName: 'Ethereum',
-              price: '\$4,000',
-              change: '+3.8%',
-            ),
-            _buildCryptoTile(
-              context,
-              icon: Icons.money,
-              cryptoName: 'Ripple',
-              price: '\$1.25',
-              change: '-2.5%',
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Xử lý khi mua crypto
-              },
-              child: const Text('Buy Crypto'),
-            ),
-          ],
+        child: FutureBuilder<DashboardData?>(
+          future: DashboardService().fetchDashboardData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('Failed to load data'));
+            } else if (snapshot.hasData) {
+              final data = snapshot.data!;
+              return GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                children: [
+                  _buildDashboardCard(
+                    title: 'Total sales',
+                    value: formatCurrency(
+                        data.totalSalesAmount), // Định dạng tiền VND
+                    icon: Icons.money,
+                  ),
+                  _buildDashboardCard(
+                    title: 'Clubs',
+                    value: data.clubCount.toString(),
+                    icon: Icons.sports_soccer,
+                  ),
+                  _buildDashboardCard(
+                    title: 'Sessions',
+                    value: data.sessionCount.toString(),
+                    icon: Icons.schedule,
+                  ),
+                  _buildDashboardCard(
+                    title: 'Players',
+                    value: data.playerCount.toString(),
+                    icon: Icons.person,
+                  ),
+                  _buildDashboardCard(
+                    title: 'Shirts',
+                    value: data.shirtCount.toString(),
+                    icon: Icons.checkroom,
+                  ),
+                  _buildDashboardCard(
+                    title: 'Types of Shirts',
+                    value: data.typeShirtCount.toString(),
+                    icon: Icons.category,
+                  ),
+                  _buildDashboardCard(
+                    title: 'Orders',
+                    value: data.orderCount.toString(),
+                    icon: Icons.shopping_cart,
+                  ),
+                ],
+              );
+            } else {
+              return const Center(child: Text('No data available'));
+            }
+          },
         ),
       ),
     );
   }
 
-  Widget _buildCryptoTile(BuildContext context,
-      {required IconData icon,
-      required String cryptoName,
-      required String price,
-      required String change}) {
-    return ListTile(
-      leading: Icon(icon, size: 40, color: Colors.orange),
-      title: Text(cryptoName, style: const TextStyle(fontSize: 18)),
-      subtitle: Text('Price: $price'),
-      trailing: Text(
-        change,
-        style: TextStyle(
-          color: change.contains('-') ? Colors.red : Colors.green,
-          fontSize: 16,
+  Widget _buildDashboardCard({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40, color: Colors.blue),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              value,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
         ),
       ),
-      onTap: () {
-        // Xử lý khi bấm vào từng loại crypto
-      },
     );
   }
 }

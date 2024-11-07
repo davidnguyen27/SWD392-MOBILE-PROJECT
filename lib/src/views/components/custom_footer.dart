@@ -29,7 +29,7 @@ class CustomFooter extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.monetization_on, size: 30),
-          label: 'Crypto',
+          label: 'Dashboard',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person, size: 30),

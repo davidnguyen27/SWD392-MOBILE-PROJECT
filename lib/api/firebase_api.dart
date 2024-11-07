@@ -56,7 +56,7 @@ class FirebaseApi {
   Future<void> checkOrdersWithStatus2(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
     // Sử dụng OrderService để lấy danh sách đơn hàng
-    final List<Order> orders = await OrderService().fetchOrders(1, 50, '', 2);
+    final List<Order> orders = await OrderService().fetchOrders(1, 500, '', 2);
 
     if (orders.isNotEmpty) {
       for (var order in orders) {

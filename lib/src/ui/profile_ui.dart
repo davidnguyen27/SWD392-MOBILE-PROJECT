@@ -33,20 +33,6 @@ Widget buildProfileScreen(BuildContext context) {
               },
             ),
             ReusableListTile(
-              icon: Icons.help,
-              title: 'Help',
-              onTap: () {
-                // Xử lý trợ giúp
-              },
-            ),
-            ReusableListTile(
-              icon: Icons.add,
-              title: 'Open another business account',
-              onTap: () {
-                // Xử lý mở tài khoản khác
-              },
-            ),
-            ReusableListTile(
               icon: Icons.logout,
               title: 'Log out',
               onTap: () async {

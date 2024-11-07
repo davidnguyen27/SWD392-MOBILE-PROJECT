@@ -29,12 +29,12 @@ class AppRoutes {
     '/club-manage': (context) => const ClubManageScreen(),
     '/player-manage': (context) => const PlayerManageScreen(),
     '/size-manage': (context) => const SizeManageScreen(),
-    '/order-manage': (context) => OrderManageScreen(),
+    '/order-manage': (context) => const OrderManageScreen(),
     '/season-add': (context) => const AddSeasonScreen(),
     '/club-add': (context) => const AddClubScreen(),
     '/shirt-add': (context) => const AddShirtScreen(),
     '/size-add': (context) => const AddSizeScreen(),
-    '/test': (context) => const CryptoScreen(),
+    // '/test': (context) => const CryptoScreen(),
   };
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
